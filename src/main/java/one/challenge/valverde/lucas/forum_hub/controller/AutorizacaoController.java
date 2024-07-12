@@ -1,7 +1,8 @@
 package one.challenge.valverde.lucas.forum_hub.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import one.challenge.valverde.lucas.forum_hub.domain.usuario.AutenticacaoDTO;
+import one.challenge.valverde.lucas.forum_hub.domain.usuario.dto.AutenticacaoDTO;
 import one.challenge.valverde.lucas.forum_hub.domain.usuario.Usuario;
 import one.challenge.valverde.lucas.forum_hub.infra.security.TokenJtwDTO;
 import one.challenge.valverde.lucas.forum_hub.infra.security.TokenService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("login")
+@Tag(name = "Auth Controller")
 public class AutorizacaoController {
 
     @Autowired

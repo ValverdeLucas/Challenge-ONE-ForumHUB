@@ -1,7 +1,8 @@
-package one.challenge.valverde.lucas.forum_hub.domain.topicos;
+package one.challenge.valverde.lucas.forum_hub.domain.topico.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import one.challenge.valverde.lucas.forum_hub.domain.usuario.Usuario;
+import one.challenge.valverde.lucas.forum_hub.domain.topico.EstadoTopico;
+import one.challenge.valverde.lucas.forum_hub.domain.topico.Topico;
 
 import java.time.LocalDateTime;
 

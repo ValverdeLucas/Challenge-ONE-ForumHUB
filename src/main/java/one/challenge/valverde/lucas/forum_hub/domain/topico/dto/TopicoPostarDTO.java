@@ -1,9 +1,8 @@
-package one.challenge.valverde.lucas.forum_hub.domain.topicos;
+package one.challenge.valverde.lucas.forum_hub.domain.topico.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import one.challenge.valverde.lucas.forum_hub.domain.usuario.Usuario;
 
-public record TopicoDTO(
+public record TopicoPostarDTO(
         @NotBlank
         String titulo,
 
