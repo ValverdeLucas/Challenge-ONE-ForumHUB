@@ -64,6 +64,7 @@ Links para as documentações:
 
 
 <strong>Video de funcionamento de algumas requisições pela Swagger-ui</strong> <br />
+
 https://github.com/user-attachments/assets/2a318d9c-3dd9-45a0-8a50-051a1bf6d226
 
 
