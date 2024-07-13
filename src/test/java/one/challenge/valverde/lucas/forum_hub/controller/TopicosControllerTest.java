@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @SpringBootTest
@@ -52,7 +52,7 @@ class TopicosControllerTest {
     private TopicoRepository repository;
 
     @Test
-    @DisplayName("Deveria retornar 400 por não enviar nenhuma informação")
+    @DisplayName("Deve retornar 400 por não enviar nenhuma informação")
     void registrarTopicoCenario1() throws Exception {
 
         var response = mvc.perform(post("/topicos")).andReturn().getResponse();
@@ -61,7 +61,7 @@ class TopicosControllerTest {
     }
 
     @Test
-    @DisplayName("Deveria retornar 200 por enviar as informações corretas")
+    @DisplayName("Deve retornar 200 por enviar as informações corretas")
     void registrarTopicoCenario2() throws Exception {
 
         var dadosTopico = new TopicoPostarDTO(
@@ -91,7 +91,7 @@ class TopicosControllerTest {
     }
 
     @Test
-    @DisplayName("Deveria retornar 400 por não enviar a ID correta do tópico")
+    @DisplayName("Deve retornar 400 por não enviar a ID correta do tópico")
     void listarTopicoEspecificoCenario1() throws Exception {
 
         when(topicoService.listarTopicoEspecifico(anyLong())).thenThrow(new ValidacaoException("Topico não localizado, por favor conferir se a ID está correta e tentar novamente!"));
@@ -102,7 +102,7 @@ class TopicosControllerTest {
     }
 
     @Test
-    @DisplayName("Deveria retornar 200 por enviar a ID correta do tópico")
+    @DisplayName("Deve retornar 200 por enviar a ID correta do tópico")
     void listarTopicoEspecificoCenario2() throws Exception {
 
         var dadosTopico = new TopicoPostarDTO(
@@ -127,7 +127,7 @@ class TopicosControllerTest {
     }
 
     @Test
-    @DisplayName("Deveria retornar 400 por não enviar a ID correta do tópico para atualizar")
+    @DisplayName("Deve retornar 400 por não enviar a ID correta do tópico para atualizar")
     void atualizarTopicoCenario1() throws Exception {
 
         when(topicoService.listarTopicoEspecifico(anyLong())).thenThrow(new ValidacaoException("Topico não localizado, por favor conferir se a ID está correta e tentar novamente!"));
@@ -138,7 +138,7 @@ class TopicosControllerTest {
     }
 
     @Test
-    @DisplayName("Deveria retornar 500 ao enviar a ID correta do tópico, mas os dados incompletos para atualizar")
+    @DisplayName("Deve retornar 500 ao enviar a ID correta do tópico, mas os dados incompletos para atualizar")
     void atualizarTopicoCenario2() throws Exception {
 
         var dadosTopico = new TopicoPostarDTO(
@@ -157,40 +157,28 @@ class TopicosControllerTest {
         assertThat(response.getStatus()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
 
-//    @Test
-//    @DisplayName("Deveria retornar 400 ao enviar a ID correta do tópico, mas os dados duplicados para atualizar")
-//    void atualizarTopicoCenario3() throws Exception {
-//
-//        when(topicoService.listarTopicoEspecifico(anyLong())).thenThrow(new ValidacaoException("Topico não localizado, por favor conferir se a ID está correta e tentar novamente!"));
-//
-//        var response = mvc.perform(put("/topicos/{id}", 1234L)).andReturn().getResponse();
-//
-//        assertThat(response.getStatus()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value());
-//    }
-//
-//    @Test
-//    @DisplayName("Deveria retornar 200 por enviar a ID correta do tópico e os dados estão corretos e não duplicados")
-//    void atualizarTopicoCenario4() throws Exception {
-//
-//        var dadosTopico = new TopicoPostarDTO(
-//                "Esse e um titulo teste",
-//                "Essa e a mensagem de teste",
-//                "Autor Teste",
-//                "Curso teste");
-//
-//        var topico = new Topico(dadosTopico);
-//
-//        var topicoDetalhado = new TopicoDetalhadoDTO(topico);
-//
-//        when(topicoService.listarTopicoEspecifico(anyLong())).thenReturn(topico);
-//
-//        var response = mvc.perform(put("/topicos/{id}", 1L)).andReturn().getResponse();
-//
-//        var jsonEsperado = dadosDetalhesJson.write(
-//                topicoDetalhado).getJson();
-//
-//        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-//        assertThat(response.getContentAsString()).isEqualTo(jsonEsperado);
-//    }
+    @Test
+    @DisplayName("Deve retornar 200 por enviar a ID correta do tópico e os dados estão corretos e não duplicados")
+    void atualizarTopicoCenario3() throws Exception {
 
+        var dadosTopico = new TopicoPostarDTO(
+                "Esse titulo e um teste",
+                "Essa e a mensagem de teste",
+                "Autor Teste",
+                "Curso teste");
+
+        var topico = new Topico(dadosTopico);
+
+        when(topicoService.listarTopicoEspecifico(anyLong())).thenThrow(new ValidacaoException("Topico não localizado, por favor conferir se a ID está correta e tentar novamente!"));
+
+        when(topicoService.atualizarTopico(any(), anyLong())).thenReturn(topico);
+
+        var response = mvc.perform(put("/topicos/{id}", 1L)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(dadosPostarJson.write(dadosTopico).getJson())).
+                andReturn().getResponse();
+
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+
+    }
 }
