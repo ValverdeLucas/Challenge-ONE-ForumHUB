@@ -19,7 +19,6 @@
 <p align="justify">
 A API se trata de um fórum simples, sendo possível realizar as requisições de um CRUD como:
 
-Para esse desafio as funcionalidades da aplicação são as seguintes:
 <ul>
 <li>Postar um novo tópico contendo: título, mensagem, autor e curso;</li>
 <li>Conferir os tópicos já registrados no banco de dados. Sendo possível visualizar eles separados por página ou conferir tópicos específicos;</li>
